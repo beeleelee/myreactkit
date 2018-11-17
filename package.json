@@ -1,5 +1,5 @@
 {
-  "name": "myreactkit",
+  "name": "@beeleelee/myreactkit",
   "version": "1.0.0",
   "description": "my react kit",
   "main": "dist/index.js",
