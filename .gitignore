@@ -1,0 +1,9 @@
+.DS_STORE
+.DS_Store
+.Ds_Store
+*.log
+node_modules
+.idea/
+.yarn-cache
+.cache
+/dist
