@@ -10,7 +10,7 @@ import {
 let unShowList = []
 let genID = IDFactory(1)
 
-export class LazyPic extends React.Component {
+export default class LazyPic extends React.Component {
   state = {
     shouldLoad: false 
   }
@@ -18,13 +18,13 @@ export class LazyPic extends React.Component {
     super(...args)
     this.checkShouldLoad = this.checkShouldLoad.bind(this)
   }
-  checkShouldLoad(){
+  checkShouldLoad(saveToList){
     let { top, left, width, height } = this.element.getBoundingClientRect()
     let screenWidth = screen.availWidth 
     let screenHeight = screen.availHeight 
 
     if(top + height < 0 || top > screenHeight || left + width < 0 || left > screenWidth){
-      unShowList.push({
+      saveToList && unShowList.push({
         component: this,
         id: this.id 
       })
@@ -64,7 +64,7 @@ export class LazyPic extends React.Component {
   }
 }
 
-export function checkLazy() {
+LazyPic.checkLazy = () => {
   let newList = unShowList.map(item => {
     if(item.component.checkShouldLoad()){
       return null 

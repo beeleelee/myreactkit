@@ -1,11 +1,10 @@
 import Page from './Page'
-import { 
-  LazyPic,
-  checkLazy,
-} from './LazyPic'
+import LazyPic from './LazyPic'
+import Carousel from './Carousel'
+//import PageRefresh from './PageRefresh'
 
 export {
   Page,
   LazyPic,
-  checkLazy,
+  Carousel,
 }
