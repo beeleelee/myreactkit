@@ -1,6 +1,6 @@
 {
   "name": "@beeleelee/myreactkit",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "my react kit",
   "main": "dist/index.js",
   "scripts": {
