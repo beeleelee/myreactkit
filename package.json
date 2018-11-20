@@ -1,11 +1,15 @@
 {
   "name": "@beeleelee/myreactkit",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "my react kit",
-  "main": "dist/index.js",
+  "main": "dist/myreactkit.cjs.js",
+  "module": "dist/myreactkit.esm.js",
+  "browser": "dist/myreactkit.umd.js",
   "scripts": {
-    "build": "rimraf dist && babel src --out-dir dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "ava",
+    "pretest": ""
   },
   "repository": {
     "type": "git",
@@ -28,12 +32,16 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
-    "rimraf": "^2.6.2"
+    "ava": "1.0.0-rc.2",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.67.3",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-uglify": "^6.0.0"
   },
   "dependencies": {
-    "history": "^4.7.2",
-    "mytoolkit": "^1.1.1",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "mytoolkit": "^1.1.5",
+    "react": "^16.6.3"
   }
 }

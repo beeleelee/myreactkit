@@ -10,13 +10,9 @@ import {
 let unShowList = []
 let genID = IDFactory(1)
 
-export default class LazyPic extends React.Component {
+export class LazyPic extends React.Component {
   state = {
     shouldLoad: false 
-  }
-  constructor(...args){
-    super(...args)
-    this.checkShouldLoad = this.checkShouldLoad.bind(this)
   }
   checkShouldLoad(saveToList){
     let { top, left, width, height } = this.element.getBoundingClientRect()
@@ -41,7 +37,9 @@ export default class LazyPic extends React.Component {
   }
   componentDidMount(){
     this.id = genID()
-    setTimeout(this.checkShouldLoad, 0)
+    setTimeout(()=>{
+      this.checkShouldLoad(true)
+    }, 0)
   }
   render(){
     let ImgLoading = this.props.loadingurl || loadingGIF 
@@ -73,3 +71,5 @@ LazyPic.checkLazy = () => {
   })
   unShowList = newList.filter(item => item !== null)
 }
+
+export default LazyPic

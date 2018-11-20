@@ -21,7 +21,8 @@ const reachEndTreshhold = 50
 export default class PageRefresh extends React.Component {
   constructor(...args){
     super(...args)
-    ['doTouchStart', 'doTouchMove', 'doTouchEnd', 'doDeceleration', 'doScrollEnd', 'doRefreshEnd'].forEach(name => {
+    let propsToBind = ['doTouchStart', 'doTouchMove', 'doTouchEnd', 'doDeceleration', 'doScrollEnd', 'doRefreshEnd']
+    propsToBind.forEach(name => {
       this[name] = this[name].bind(this)
     })
     this.scrollTop = 0 
@@ -134,7 +135,7 @@ export default class PageRefresh extends React.Component {
     })
     this.tweenAni.start()
   }
-  doScrolEnd(){
+  doScrollEnd(){
     let bMargin = this.containerHeight + this.scrollTop - this.contentHeight
     let startY, endY 
     if(this.scrollTop < 0 || bMargin > 0){
@@ -202,11 +203,12 @@ export default class PageRefresh extends React.Component {
     setStyle(this.scrollBar, 'top', `${scrollBarTop}px`)
   }
   getContainerHeight(){
-    let { height } = this.container.getBoundingCientRect()
+    let { height } = this.container.getBoundingClientRect()
     return height 
   }
   getContentHeight(){
-    let { height } = this.scrollContent.getBoundingCientRect()
+    let { height } = this.scrollContent.getBoundingClientRect()
+    return height 
   }
   calculateContentHeight(){
     this.containerHeight = this.getContainerHeight()

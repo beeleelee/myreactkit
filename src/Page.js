@@ -47,6 +47,8 @@ export default class Page extends React.Component {
         {...props}
         ref={node => this.container = node}
         onScroll={e => {
+          onScroll(this.container.scrollTop)
+
           if(this.scrollEndTimeHandle){
             clearTimeout(this.scrollEndTimeHandle)
             this.scrollEndTimeHandle = null 
@@ -54,7 +56,7 @@ export default class Page extends React.Component {
           this.scrollEndTimeHandle = setTimeout(this.doScrollEnd, 100)
         }}
         style={{...pageStyle, ...style}}>
-        <div ref={node => this.content = nod}>{children}</div>
+        <div ref={node => this.content = node}>{children}</div>
       </div>
     )
   }

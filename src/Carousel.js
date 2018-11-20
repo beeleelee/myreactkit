@@ -18,7 +18,8 @@ const tweenDuration = 300
 export default class Carousel extends React.Component {
   constructor(props){
     super(props)
-    ['setDimension', 'doTouchEnd', 'doTouchMove', 'doTouchStart', 'setOffsetX', 'nextSlide', 'prevSlide'].forEach(name => {
+    let propsToBind = ['setDimension', 'doTouchEnd', 'doTouchMove', 'doTouchStart', 'setOffsetX', 'nextSlide', 'prevSlide']
+    propsToBind.forEach(name => {
       this[name] = this[name].bind(this)
     })
     this.autoplayTimeHandle = null 
@@ -152,7 +153,7 @@ export default class Carousel extends React.Component {
     this.currentX = pageX
     this.currentY = pageY 
   }
-  doTouchEnd(){
+  doTouchEnd(e){
     let childList = React.Children.toArray(this.props.children)
     if(childList.length < 2) return 
     if(this.isTransition) return 
@@ -245,7 +246,7 @@ export default class Carousel extends React.Component {
 
     let list = React.Children.toArray(this.props.children)
     return (
-      <div>
+      <div style={{...dotWrapStyle}}>
         {
           list.length > 1 && list.map((item, key) => (
             <div 
@@ -269,7 +270,7 @@ export default class Carousel extends React.Component {
         className="slide-container"
         style={{...slideContainerStyle}}>
         {this.renderSlides()}
-        {this.renderDotes()}
+        {this.renderDots()}
       </div>
     )
   }

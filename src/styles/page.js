@@ -5,7 +5,7 @@ const pageStyle = {
   top: 0,
   bottom: 0,
   overflow: 'auto',
-  webkitOverflowScrolling: 'touch'
+  WebkitOverflowScrolling: 'touch'
 }
 
 export {
