@@ -113,7 +113,7 @@ export default class PageRefresh extends React.Component {
     this.decAni = new Deceleration({
       velocity: this.safeV(v),
       onStep: this.doDeceleration,
-      onEnd: this.doScrolEnd 
+      onEnd: this.doScrollEnd 
     })
     this.decAni.start()
   }

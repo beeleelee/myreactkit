@@ -25007,7 +25007,7 @@ function (_React$Component) {
       this.decAni = new _mytoolkit.Deceleration({
         velocity: this.safeV(v),
         onStep: this.doDeceleration,
-        onEnd: this.doScrolEnd
+        onEnd: this.doScrollEnd
       });
       this.decAni.start();
     }
@@ -25256,7 +25256,17 @@ var _Carousel = _interopRequireDefault(require("./Carousel"));
 var _PageRefresh = _interopRequireDefault(require("./PageRefresh"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Page":"../src/Page.js","./LazyPic":"../src/LazyPic.js","./Carousel":"../src/Carousel.js","./PageRefresh":"../src/PageRefresh.js"}],"index.js":[function(require,module,exports) {
+},{"./Page":"../src/Page.js","./LazyPic":"../src/LazyPic.js","./Carousel":"../src/Carousel.js","./PageRefresh":"../src/PageRefresh.js"}],"images/1.jpg":[function(require,module,exports) {
+module.exports = "/1.106c6bd6.jpg";
+},{}],"images/2.jpg":[function(require,module,exports) {
+module.exports = "/2.adddeb7c.jpg";
+},{}],"images/3.jpg":[function(require,module,exports) {
+module.exports = "/3.993a564c.jpg";
+},{}],"images/4.jpg":[function(require,module,exports) {
+module.exports = "/4.d8cb7558.jpg";
+},{}],"images/5.jpg":[function(require,module,exports) {
+module.exports = "/5.044aff48.jpg";
+},{}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -25265,10 +25275,25 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 
 var _src = require("../src");
 
+var _ = _interopRequireDefault(require("./images/1.jpg"));
+
+var _2 = _interopRequireDefault(require("./images/2.jpg"));
+
+var _3 = _interopRequireDefault(require("./images/3.jpg"));
+
+var _4 = _interopRequireDefault(require("./images/4.jpg"));
+
+var _5 = _interopRequireDefault(require("./images/5.jpg"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var pics = [_.default, _2.default, _3.default, _4.default, _5.default];
 
 var App = function App() {
   return _react.default.createElement(_src.PageRefresh, {
+    onScrollEnd: function onScrollEnd(e) {
+      _src.LazyPic.checkLazy();
+    },
     className: "App"
   }, _react.default.createElement("h1", {
     className: "App-Title"
@@ -25277,11 +25302,13 @@ var App = function App() {
   }).map(function (i, key) {
     return _react.default.createElement("div", {
       key: key
-    }, _react.default.createElement("p", {
+    }, _react.default.createElement(_src.LazyPic, {
+      src: pics[key % 5],
       style: {
-        fontSize: 18
+        width: '100%',
+        minHeight: 200
       }
-    }, key));
+    }));
   }));
 };
 
@@ -25291,7 +25318,7 @@ _reactDom.default.render(_react.default.createElement(App, null), document.getEl
 if (module.hot) {
   module.hot.accept();
 }
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","../src":"../src/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","../src":"../src/index.js","./images/1.jpg":"images/1.jpg","./images/2.jpg":"images/2.jpg","./images/3.jpg":"images/3.jpg","./images/4.jpg":"images/4.jpg","./images/5.jpg":"images/5.jpg"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -25318,7 +25345,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49858" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49423" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
