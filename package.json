@@ -1,6 +1,6 @@
 {
   "name": "@beeleelee/myreactkit",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "my react kit",
   "main": "dist/myreactkit.cjs.js",
   "module": "dist/myreactkit.esm.js",
@@ -9,7 +9,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "ava",
-    "pretest": ""
+    "pretest": "",
+    "demo": "parcel example/index.html --out-dir demo"
   },
   "repository": {
     "type": "git",
@@ -33,12 +34,14 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "ava": "1.0.0-rc.2",
+    "react-dom": "^16.6.3",
     "rimraf": "^2.6.2",
     "rollup": "^0.67.3",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-uglify": "^6.0.0"
+    "rollup-plugin-uglify": "^6.0.0",
+    "parcel-bundler": "^1.10.3"
   },
   "dependencies": {
     "mytoolkit": "^1.1.5",

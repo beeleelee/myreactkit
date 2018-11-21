@@ -234,7 +234,7 @@ export default class PageRefresh extends React.Component {
     this.calculateContentHeight()
   }
   componentWillUnmount(){
-    this.contianer.removeEventListener('touchmove', this.doTouchMove)
+    this.container.removeEventListener('touchmove', this.doTouchMove)
   }
   render(){
     return (
@@ -249,6 +249,7 @@ export default class PageRefresh extends React.Component {
           style={{...scrollContentStyle}}
           ref={node => this.scrollContent = node}
           className="scroll-content">
+          <div style={{...refreshWrapStyle}} ><img src={loadingGIF} style={{width: 20}}/></div>
           {this.props.children}
         </div>
         <div 
