@@ -1,6 +1,6 @@
 {
   "name": "@beeleelee/myreactkit",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "my react kit",
   "main": "dist/myreactkit.cjs.js",
   "module": "dist/myreactkit.esm.js",

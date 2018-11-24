@@ -166,7 +166,7 @@ export default class PageRefresh extends React.Component {
     }
     this.prevScrollTop !== this.scrollTop && this.props.onScrollEnd && this.props.onScrollEnd()
     this.prevScrollTop !== this.scrollTop && bMargin + reachEndTreshhold > 0 && this.props.onReachEnd && this.props.onReachEnd()
-    setStyle(this.scrollBar, 'opacity', 1)
+    setStyle(this.scrollBar, 'opacity', 0)
   }
   doDeceleration(movement){
     this.scrollTop -= movement
