@@ -1,6 +1,6 @@
 {
   "name": "@beeleelee/myreactkit",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "my react kit",
   "main": "dist/myreactkit.cjs.js",
   "module": "dist/myreactkit.esm.js",
@@ -44,7 +44,7 @@
     "parcel-bundler": "^1.10.3"
   },
   "dependencies": {
-    "mytoolkit": "^1.1.7",
+    "mytoolkit": "^1.1.8",
     "react": "^16.6.3"
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Tween,
-  currentTime,
+  performanceNow,
   setStyle,
 } from 'mytoolkit'
 import {
@@ -133,7 +133,7 @@ export default class Carousel extends React.Component {
     let { pageX, pageY } = e.touches[0]
     this.startX = this.currentX = pageX 
     this.startY = this.currentY = pageY
-    this.startTime = currentTime()
+    this.startTime = performanceNow()
   }
   doTouchMove(e){
     let childList = React.Children.toArray(this.props.children)
@@ -159,7 +159,7 @@ export default class Carousel extends React.Component {
     if(this.isTransition) return 
 
     e.stopPropagation()
-    this.timegap = currentTime() - this.startTime 
+    this.timegap = performanceNow() - this.startTime 
     this.distanceX = Math.abs(this.currentX - this.startX)
     this.distanceY = Math.abs(this.currentY - this.startY)
     this.isTransition = true 

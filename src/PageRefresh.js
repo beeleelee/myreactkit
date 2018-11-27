@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  currentTime,
+  performanceNow,
   setStyle,
   Deceleration,
   Tween,
@@ -44,7 +44,7 @@ export default class PageRefresh extends React.Component {
     this.startY = this.currentY = pageY 
     this.touchArray = [
       {
-        time: currentTime(),
+        time: performanceNow(),
         y: pageY
       }
     ]
@@ -79,7 +79,7 @@ export default class PageRefresh extends React.Component {
     this.scrollTop -= delta 
     this.setScrollTop()
     this.touchArray.push({
-      time: currentTime(),
+      time: performanceNow(),
       y: pageY
     })
     this.currentY = pageY 
