@@ -4,8 +4,12 @@ import {
   randStr,
   typeOf,
 } from 'mytoolkit'
+import {
+  toastWrapStyle,
+  toastStyle,
+} from './styles/toast'
 
-const fadeOutTime = 2000
+const fadeOutTime = 200000
 let container = null 
 let containerID = null 
 
@@ -33,7 +37,9 @@ export class ToastMessage extends React.Component {
 
   render(){
     return (
-      <div>{this.props.message || ''}</div>
+      <div style={{...toastWrapStyle}}>
+        <div style={{...toastStyle}}>{this.props.message || ''}</div>
+      </div>
     )
   }
 }
