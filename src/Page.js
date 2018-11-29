@@ -12,13 +12,7 @@ export default class Page extends React.Component {
     this.scrollEndTimeHandle = null 
     this.doScrollEnd = this.doScrollEnd.bind(this)
   }
-  doScrollEnd(){
-    let {
-      onScrollEnd = func,
-      reachEndThreshold = 50,
-      onReachEnd = func,
-      onReachTop = func,
-    } = this.props
+  doScrollEnd({onScrollEnd, reachEndThreshold, onReachEnd, onReachTop}){
     let scrollTop = this.container.scrollTop 
     onScrollEnd(scrollTop)
     let { height: containerHeight } = this.container.getBoundingClientRect()
@@ -53,7 +47,9 @@ export default class Page extends React.Component {
             clearTimeout(this.scrollEndTimeHandle)
             this.scrollEndTimeHandle = null 
           }
-          this.scrollEndTimeHandle = setTimeout(this.doScrollEnd, 100)
+          this.scrollEndTimeHandle = setTimeout(() => {
+            this.doScrollEnd({onScrollEnd, onReachEnd, onReachTop, reachEndThreshold})
+          }, 100)
         }}
         style={{...pageStyle, ...style}}>
         <div ref={node => this.content = node}>{children}</div>
