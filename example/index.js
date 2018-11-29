@@ -1,38 +1,36 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import {
-  PageRefresh,
-  LazyPic
-} from '../src'
-import p1 from './images/1.jpg'
-import p2 from './images/2.jpg'
-import p3 from './images/3.jpg'
-import p4 from './images/4.jpg'
-import p5 from './images/5.jpg'
-
-const pics = [p1, p2, p3, p4, p5]
+  HashRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+import PCarousel from './carousel'
+import PPageRefresh from './pageRefresh'
 
 const App = () => (
-  <PageRefresh 
-    onScrollEnd={e => {
-      LazyPic.checkLazy()
-    }}
-    className="App" >
-    <h1 className="App-Title">Hello Parcel x React</h1>
-    {
-      Array.from({length: 15})
-        .map((i, key) => {
-          return <div key={key}>
-            <LazyPic src={pics[key % 5]} style={{width: '100%', minHeight: 200}} />
-          </div>
-        })
-    }
-  </PageRefresh>
-);
+  <Router>
+    <div>
+      <ul>
+        <li>
+          <Link to="/carousel">carousel</Link>
+        </li>
+        <li>
+          <Link to="/pagerefresh">pageRefresh</Link>
+        </li>
+      </ul>
 
-ReactDOM.render(<App />, document.getElementById('root'));
+      <hr />
+
+      <Route path="/carousel" component={PCarousel} />
+      <Route path="/pagerefresh" component={PPageRefresh} />
+    </div>
+  </Router>
+)
+
+ReactDOM.render(<App />, document.getElementById('root'))
 
 // Hot Module Replacement
 if (module.hot) {
-  module.hot.accept();
+  module.hot.accept()
 }
