@@ -84,7 +84,7 @@ export default class PageRefresh extends React.Component {
     })
     this.currentY = pageY 
   }
-  doTouchEnd(e){
+  doTouchEnd(){
     if(this.refreshing) return 
 
     if(this.touchArray.length < 2){
@@ -126,7 +126,7 @@ export default class PageRefresh extends React.Component {
         this.scrollTop = startY + (endY - startY) * percent
         this.setScrollTop()
       },
-      onEnd: e => {
+      onEnd: () => {
         this.scrollTop = endY 
         this.setScrollTop()
         this.refreshing = false 
@@ -153,7 +153,7 @@ export default class PageRefresh extends React.Component {
           this.scrollTop = startY + (endY - startY) * percent 
           this.setScrollTop()
         },
-        onEnd: e => {
+        onEnd: () => {
           this.scrollTop = endY
           this.setScrollTop()
           if(this.shouldRefresh){

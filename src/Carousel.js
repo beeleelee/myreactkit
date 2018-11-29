@@ -44,7 +44,7 @@ export default class Carousel extends React.Component {
         let offsetX = startX + (endX - startX) * percent 
         this.setOffsetX(offsetX)
       },
-      onEnd: e => {
+      onEnd: () => {
         this.setOffsetX(0)
         this.setState({
           curIndex: nextIndex,
@@ -229,14 +229,14 @@ export default class Carousel extends React.Component {
         {this.preLoadImage(list)}
         {
           isScroll && this.shouldRenderFirst ?
-          this.renderSlide(list[this.firstIndex])
-          : null
+            this.renderSlide(list[this.firstIndex])
+            : null
         }
         {this.renderSlide(list[curIndex])}
         {
           isScroll && this.shouldRenderLast ? 
-          this.renderSlide(list[this.lastIndex])
-          : null 
+            this.renderSlide(list[this.lastIndex])
+            : null 
         }
       </div>
     )

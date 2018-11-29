@@ -46,7 +46,7 @@ export default class Page extends React.Component {
       <div 
         {...props}
         ref={node => this.container = node}
-        onScroll={e => {
+        onScroll={() => {
           onScroll(this.container.scrollTop)
 
           if(this.scrollEndTimeHandle){
