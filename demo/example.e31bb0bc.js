@@ -29748,7 +29748,125 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = PageRefresh;
-},{"react":"../node_modules/react/index.js","mytoolkit":"../node_modules/mytoolkit/dist/mytoolkit.umd.js","./images/loadingGIF":"../src/images/loadingGIF.js","./styles/pageRefresh":"../src/styles/pageRefresh.js"}],"../src/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","mytoolkit":"../node_modules/mytoolkit/dist/mytoolkit.umd.js","./images/loadingGIF":"../src/images/loadingGIF.js","./styles/pageRefresh":"../src/styles/pageRefresh.js"}],"../src/toast.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.toast = exports.ToastMessage = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+var _mytoolkit = require("mytoolkit");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+var fadeOutTime = 2000;
+var container = null;
+var containerID = null;
+
+var ToastMessage =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ToastMessage, _React$Component);
+
+  function ToastMessage(options) {
+    var _this;
+
+    _classCallCheck(this, ToastMessage);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ToastMessage).call(this, options));
+    _this.timeHandle = null;
+    _this.remove = _this.remove.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    return _this;
+  }
+
+  _createClass(ToastMessage, [{
+    key: "remove",
+    value: function remove() {
+      _reactDom.default.unmountComponentAtNode(container);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearContainer();
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.timeHandle = setTimeout(this.remove, fadeOutTime);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      if (this.timeHandle) {
+        clearTimeout(this.timeHandle);
+      }
+
+      this.timeHandle = setTimeout(this.remove, fadeOutTime);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react.default.createElement("div", null, this.props.message || '');
+    }
+  }]);
+
+  return ToastMessage;
+}(_react.default.Component);
+
+exports.ToastMessage = ToastMessage;
+
+var toast = function toast(message) {
+  if ((0, _mytoolkit.typeOf)(containerID) === 'Null') {
+    containerID = "toast_".concat((0, _mytoolkit.randStr)(6));
+    container = createContainer(containerID);
+  }
+
+  _reactDom.default.render(_react.default.createElement(ToastMessage, {
+    message: message
+  }), container);
+};
+
+exports.toast = toast;
+
+function createContainer(id) {
+  document.body.insertAdjacentHTML('beforeend', "<div id=".concat(id, " />"));
+  return document.getElementById(id);
+}
+
+function clearContainer() {
+  if (container) {
+    document.body.removeChild(container);
+    container = null;
+    containerID = null;
+  }
+}
+
+var _default = toast;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","mytoolkit":"../node_modules/mytoolkit/dist/mytoolkit.umd.js"}],"../src/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29778,6 +29896,12 @@ Object.defineProperty(exports, "PageRefresh", {
     return _PageRefresh.default;
   }
 });
+Object.defineProperty(exports, "toast", {
+  enumerable: true,
+  get: function () {
+    return _toast.default;
+  }
+});
 
 var _Page = _interopRequireDefault(require("./Page"));
 
@@ -29787,8 +29911,10 @@ var _Carousel = _interopRequireDefault(require("./Carousel"));
 
 var _PageRefresh = _interopRequireDefault(require("./PageRefresh"));
 
+var _toast = _interopRequireDefault(require("./toast"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Page":"../src/Page.js","./LazyPic":"../src/LazyPic.js","./Carousel":"../src/Carousel.js","./PageRefresh":"../src/PageRefresh.js"}],"images/1.jpg":[function(require,module,exports) {
+},{"./Page":"../src/Page.js","./LazyPic":"../src/LazyPic.js","./Carousel":"../src/Carousel.js","./PageRefresh":"../src/PageRefresh.js","./toast":"../src/toast.js"}],"images/1.jpg":[function(require,module,exports) {
 module.exports = "/1.106c6bd6.jpg";
 },{}],"images/2.jpg":[function(require,module,exports) {
 module.exports = "/2.adddeb7c.jpg";
@@ -29910,14 +30036,22 @@ var _carousel = _interopRequireDefault(require("./carousel"));
 
 var _pageRefresh = _interopRequireDefault(require("./pageRefresh"));
 
+var _src = require("../src");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var count = 1;
 
 var App = function App() {
   return _react.default.createElement(_reactRouterDom.HashRouter, null, _react.default.createElement("div", null, _react.default.createElement("ul", null, _react.default.createElement("li", null, _react.default.createElement(_reactRouterDom.Link, {
     to: "/carousel"
   }, "carousel")), _react.default.createElement("li", null, _react.default.createElement(_reactRouterDom.Link, {
     to: "/pagerefresh"
-  }, "pageRefresh"))), _react.default.createElement("hr", null), _react.default.createElement(_reactRouterDom.Route, {
+  }, "pageRefresh"))), _react.default.createElement("hr", null), _react.default.createElement("button", {
+    onClick: function onClick() {
+      (0, _src.toast)("hello! ".concat(count++));
+    }
+  }, "toast hello"), _react.default.createElement(_reactRouterDom.Route, {
     path: "/carousel",
     component: _carousel.default
   }), _react.default.createElement(_reactRouterDom.Route, {
@@ -29932,7 +30066,7 @@ _reactDom.default.render(_react.default.createElement(App, null), document.getEl
 if (module.hot) {
   module.hot.accept();
 }
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","./carousel":"carousel.js","./pageRefresh":"pageRefresh.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","./carousel":"carousel.js","./pageRefresh":"pageRefresh.js","../src":"../src/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

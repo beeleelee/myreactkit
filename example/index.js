@@ -7,6 +7,11 @@ import {
 } from 'react-router-dom'
 import PCarousel from './carousel'
 import PPageRefresh from './pageRefresh'
+import {
+  toast, 
+} from '../src'
+
+let count = 1 
 
 const App = () => (
   <Router>
@@ -21,7 +26,9 @@ const App = () => (
       </ul>
 
       <hr />
-
+      <button onClick={() => {
+        toast(`hello! ${count++}`)
+      }}>toast hello</button>
       <Route path="/carousel" component={PCarousel} />
       <Route path="/pagerefresh" component={PPageRefresh} />
     </div>
