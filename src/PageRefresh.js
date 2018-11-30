@@ -7,12 +7,7 @@ import {
 } from 'mytoolkit'
 import loadingGIF from './images/loadingGIF'
 
-import {
-  scrollViewWrapperStyle,
-  scrollContentStyle,
-  refreshWrapStyle,
-  scrollBarStyle,
-} from './styles/pageRefresh'
+import './styles/pageRefresh.css'
 
 const refreshHeight = 40 
 const refreshTimeSpan = 1500
@@ -242,20 +237,18 @@ export default class PageRefresh extends React.Component {
         onTouchStart={this.doTouchStart}
         onTouchEnd={this.doTouchEnd}
         onTouchCancel={this.doTouchEnd}
-        style={{...scrollViewWrapperStyle, ...this.props.style}}
+        style={{...this.props.style}}
         ref={node => this.container = node}
-        className="scroll-view-wrapper">
+        className="mrk-scroll-view-wrapper">
         <div 
-          style={{...scrollContentStyle}}
           ref={node => this.scrollContent = node}
-          className="scroll-content">
-          <div style={{...refreshWrapStyle}} ><img src={loadingGIF} style={{width: 20}}/></div>
+          className="mrk-scroll-content">
+          <div className="mrk-refresh-wrap"><img src={loadingGIF} style={{width: 20}}/></div>
           {this.props.children}
         </div>
         <div 
           ref={node => this.scrollBar = node}
-          style={{...scrollBarStyle}} 
-          className="scroll-bar"/>
+          className="mrk-scroll-bar"/>
       </div>
     )
   }

@@ -3,9 +3,7 @@ import loadingGIF from './images/loadingGIF'
 import {
   IDFactory,
 } from 'mytoolkit'
-import {
-  lazyStyle
-} from './styles/lazy'
+import './styles/lazy.css'
 
 let unShowList = []
 let genID = IDFactory(1)
@@ -52,10 +50,10 @@ export class LazyPic extends React.Component {
 
     return (
       <div 
+        className="mrk-lazy-pic"
         ref={node => this.element = node}
         {...this.props}
         style={{
-          ...lazyStyle,
           backgroundImage: `url(${ImgLoading})`
         }}/>
     )

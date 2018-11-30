@@ -1,8 +1,6 @@
 import React from 'react'
 
-import {
-  pageStyle
-} from './styles/page'
+import './styles/page.css'
 
 const func = () => {}
 
@@ -32,7 +30,7 @@ export default class Page extends React.Component {
       onReachEnd = func,
       onReachTop = func,
       reachEndThreshold = 50,
-      style,
+      style = {},
       children,
       ...props
     } = this.props 
@@ -51,7 +49,8 @@ export default class Page extends React.Component {
             this.doScrollEnd({onScrollEnd, onReachEnd, onReachTop, reachEndThreshold})
           }, 100)
         }}
-        style={{...pageStyle, ...style}}>
+        className="mrk-page"
+        style={{...style}}>
         <div ref={node => this.content = node}>{children}</div>
       </div>
     )

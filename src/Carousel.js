@@ -4,13 +4,7 @@ import {
   performanceNow,
   setStyle,
 } from 'mytoolkit'
-import {
-  slideItemStyle,
-  slidesStyle,
-  slideContainerStyle,
-  dotWrapStyle,
-  dotStyle,
-} from './styles/carousel'
+import './styles/carousel.css'
 
 const autoplayInterval = 3000 
 const tweenDuration = 300 
@@ -199,11 +193,12 @@ export default class Carousel extends React.Component {
     return <div style={{display: 'none'}}>{list}</div>
   }
   renderSlide(item){
+    let style = {}
     if(this.slideWidth){
-      slideItemStyle.width = this.slideWidth
+      style.width = this.slideWidth
     }
     return (
-      <div style={{...slideItemStyle}} className="slide-item">{item}</div>
+      <div style={{...style}} className="mrk-slide-item">{item}</div>
     )
   }
   renderSlides(){
@@ -224,8 +219,7 @@ export default class Carousel extends React.Component {
     return (
       <div 
         ref={node => this.slides = node}
-        className="slides"
-        style={{...slidesStyle}}>
+        className="mrk-slides">
         {this.preLoadImage(list)}
         {
           isScroll && this.shouldRenderFirst ?
@@ -246,12 +240,12 @@ export default class Carousel extends React.Component {
 
     let list = React.Children.toArray(this.props.children)
     return (
-      <div style={{...dotWrapStyle}}>
+      <div className="mrk-dot-wrap">
         {
           list.length > 1 && list.map((item, key) => (
-            <div 
+            <div
+              className="mrk-dot" 
               style={{
-                ...dotStyle,
                 backgroundColor: `${key === this.state.curIndex ? '#666666' : '#d8d8d8'}`
               }}
               key={key}/>
@@ -261,14 +255,12 @@ export default class Carousel extends React.Component {
     )
   }
   render(){
-    if(this.props.style && this.props.style.height){
-      slideContainerStyle.height = this.props.style.height 
-    }
+    let { style = {} } = this.props 
     return (
       <div 
         ref={node => this.slideContainer = node}
-        className="slide-container"
-        style={{...slideContainerStyle}}>
+        className="mrk-slide-container"
+        style={{...style}}>
         {this.renderSlides()}
         {this.renderDots()}
       </div>
