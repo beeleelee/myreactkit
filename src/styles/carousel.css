@@ -1,0 +1,41 @@
+.mrk-slide-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  .mrk-slides {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .mrk-slide-item {
+    flex-shrink: 0;
+    width: 100%;
+  }
+  .mrk-dot-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 30;
+    left: 0;
+    bottom: 0;
+    .mrk-dot {
+      width: 6;
+      height: 6;
+      border-radius: 3;
+      background-color: #d8d8d8;
+      margin-right: 5;
+    }
+  }
+}
+
+
+
+
+
+

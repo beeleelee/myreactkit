@@ -1,0 +1,7 @@
+.mrk-lazy-pic = {
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 100;
+  min-height: 100;
+}
