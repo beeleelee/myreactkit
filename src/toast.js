@@ -6,36 +6,71 @@ import {
 } from 'mytoolkit'
 import './styles/toast.css'
 
-const fadeOutTime = 200000
+const fadeOutTime = 2000
 let container = null 
 let containerID = null 
+let messageList = []
 
-export class ToastMessage extends React.Component {
+class ToastMessage extends React.Component {
+  state = {
+    show: false
+  }
   constructor(options){
     super(options)
-    this.timeHandle = null 
+    this.fadeOut = this.fadeOut.bind(this)
     this.remove = this.remove.bind(this)
   }
   remove(){
-    ReactDOM.unmountComponentAtNode(container)
+    if(this.state.show) return 
+    
+    messageList = messageList.filter(item => item.key !== this.id)
+    if(messageList.length > 0){
+      renderToastList()
+    }else{
+      removeToastList()
+    }
   }
+  fadeOut(){
+    this.setState({
+      show: false
+    })
+  }
+  componentDidMount(){
+    this.id = this.props.id 
+    setTimeout(() => {
+      this.setState({
+        show: true
+      })
+      setTimeout(this.fadeOut, fadeOutTime)
+    }, 0)
+  }
+  render(){
+    return (
+      <div 
+        onTransitionEnd={this.remove}
+        className={`mrk-toast-message ${this.state.show ? 'show' : ''}`}>
+        {this.props.message || ''}
+      </div>
+    )
+  }
+}
+
+class ToastList extends React.Component {
   componentWillUnmount(){
     clearContainer()
   }
-  componentDidMount(){
-    this.timeHandle = setTimeout(this.remove, fadeOutTime)
-  }
-  componentDidUpdate(){
-    if(this.timeHandle){
-      clearTimeout(this.timeHandle)
-    }
-    this.timeHandle = setTimeout(this.remove, fadeOutTime)
-  }
-
   render(){
+    let {
+      messageList = []
+    } = this.props 
     return (
       <div className="mrk-toast-wrap">
-        <div className="mrk-toast-message">{this.props.message || ''}</div>
+        {
+          messageList.map((item) => {
+            return <ToastMessage key={item.key} message={item.message} id={item.key} />
+            
+          })
+        }
       </div>
     )
   }
@@ -46,13 +81,25 @@ export const toast = (message) => {
     containerID = `toast_${randStr(6)}`
     container = createContainer(containerID)
   }
-  ReactDOM.render(<ToastMessage message={message} />, container)
+  messageList.push({
+    key: randStr(6),
+    message
+  })
+  renderToastList()
+}
+
+function renderToastList() {
+  ReactDOM.render(<ToastList messageList={messageList}/>, container)
 }
 
 function createContainer(id) {
   document.body.insertAdjacentHTML('beforeend', `<div id=${id} />`)
 
   return document.getElementById(id)
+}
+
+function removeToastList() {
+  container && ReactDOM.unmountComponentAtNode(container)
 }
 
 function clearContainer() {
