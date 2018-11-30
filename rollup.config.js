@@ -3,6 +3,12 @@ import commonjs from 'rollup-plugin-commonjs'
 import pkg from './package.json'
 import babel from 'rollup-plugin-babel'
 // import { uglify } from 'rollup-plugin-uglify'
+import postcss from 'rollup-plugin-postcss'
+import simpleVar from 'postcss-simple-vars'
+import nested from 'postcss-nested'
+import cssnext from 'postcss-cssnext'
+//import csspreset from 'postcss-preset-env'
+import cssnano from 'cssnano'
 
 export default [
   // browser-friendly UMD build
@@ -14,6 +20,14 @@ export default [
       format: 'umd'
     },
     plugins: [
+      postcss({
+        plugins: [
+          simpleVar(),
+          nested(),
+          cssnext(),
+          cssnano()
+        ]
+      }),
       resolve(), // so Rollup can find `ms`
       babel({
         exclude: 'node_modules/**'
@@ -31,12 +45,20 @@ export default [
   // `file` and `format` for each target)
   {
     input: 'src/index.js',
-    external: ['react', 'mytoolkit'],
+    external: ['react', 'react-dom', 'mytoolkit'],
     output: [
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'es' }
     ],
     plugins: [
+      postcss({
+        plugins: [
+          simpleVar(),
+          nested(),
+          cssnext(),
+          cssnano()
+        ]
+      }),
       babel({
         exclude: 'node_modules/**'
       }),

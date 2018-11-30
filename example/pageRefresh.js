@@ -2,7 +2,7 @@ import React from 'react'
 import {
   PageRefresh,
   LazyPic
-} from '../src'
+} from '../dist/myreactkit.esm'
 import p1 from './images/1.jpg'
 import p2 from './images/2.jpg'
 import p3 from './images/3.jpg'

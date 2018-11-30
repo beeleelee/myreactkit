@@ -1,0 +1,18 @@
+.mrk-toast-wrap {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 150;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  .mrk-toast-message {
+    padding: 5px 10px 2px;
+    margin: 0 20px;
+    background-color: rgba(0,0,0,.8);
+    color: #ffffff;
+    font-size: 14px;
+  }
+}

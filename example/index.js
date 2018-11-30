@@ -9,7 +9,7 @@ import PCarousel from './carousel'
 import PPageRefresh from './pageRefresh'
 import {
   toast, 
-} from '../src'
+} from '../dist/myreactkit.esm'
 
 let count = 1 
 
