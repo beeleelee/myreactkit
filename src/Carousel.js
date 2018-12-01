@@ -6,36 +6,37 @@ import {
 } from 'mytoolkit'
 import './styles/carousel.css'
 
-const autoplayInterval = 3000 
-const tweenDuration = 300 
+const autoplayInterval = 3000
+const tweenDuration = 300
 
 export default class Carousel extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     let propsToBind = ['setDimension', 'doTouchEnd', 'doTouchMove', 'doTouchStart', 'setOffsetX', 'nextSlide', 'prevSlide']
     propsToBind.forEach(name => {
       this[name] = this[name].bind(this)
     })
-    this.autoplayTimeHandle = null 
-    this.offsetX = 0 
-    this.isTransition = false 
-    this.autoplaying = false 
+    this.autoplayTimeHandle = null
+    this.offsetX = 0
+    this.isTransition = false
+    this.autoplaying = false
     this.slideWidth = 0
-    this.slideHeight = 0 
+    this.slideHeight = 0
     this.state = {
       curIndex: props.defaultIndex || 0,
-      isScroll: false 
+      isScroll: false
     }
   }
-  setOffsetX(offsetX){
+  setOffsetX(offsetX) {
     this.offsetX = offsetX
     setStyle(this.slides, 'transform', `translate3d(${offsetX}px, 0, 0)`)
   }
-  tweenSlide(duration, startX, endX, nextIndex){
+  tweenSlide(duration, startX, endX, nextIndex) {
     this.tween = new Tween({
       duration,
+      ease: 'easeIuOutCubic',
       onStep: (t, percent) => {
-        let offsetX = startX + (endX - startX) * percent 
+        let offsetX = startX + (endX - startX) * percent
         this.setOffsetX(offsetX)
       },
       onEnd: () => {
@@ -45,41 +46,41 @@ export default class Carousel extends React.Component {
           isScroll: false,
         }, () => {
           this.isTransition = false
-          this.tween = null 
-          this.autoplaying = false 
-          let { afterChange } = this.props 
+          this.tween = null
+          this.autoplaying = false
+          let { afterChange } = this.props
           this.prevIndex !== nextIndex && afterChange && afterChange(nextIndex)
         })
       }
     }).start()
   }
-  prevSlide(){
+  prevSlide() {
     this.props.autoplay && this.autoplay()
     let childList = React.Children.toArray(this.props.children)
-    if(childList.length < 2) return 
+    if (childList.length < 2) return
 
-    this.autoplaying = true 
+    this.autoplaying = true
     this.beforeScroll(() => {
-      this.isTransition = true 
+      this.isTransition = true
       this.tweenSlide(tweenDuration, -1 * this.slideWidth, 0, this.firstIndex)
     })
   }
-  nextSlide(){
+  nextSlide() {
     this.props.autoplay && this.autoplay()
     let childList = React.Children.toArray(this.props.children)
-    if(childList.length < 2) return 
+    if (childList.length < 2) return
 
-    this.autoplaying = true 
+    this.autoplaying = true
     this.beforeScroll(() => {
-      this.isTransition = true 
+      this.isTransition = true
       this.tweenSlide(tweenDuration, -1 * this.slideWidth, -2 * this.slideWidth, this.lastIndex)
     })
   }
-  autoplay(){
+  autoplay() {
     this.autoplayTimeHandle = setTimeout(this.nextSlide, this.props.autoplayInterval || autoplayInterval)
   }
-  beforeScroll(func){
-    this.prevIndex = this.state.curIndex 
+  beforeScroll(func) {
+    this.prevIndex = this.state.curIndex
     this.setState({
       isScroll: true
     }, () => {
@@ -87,101 +88,101 @@ export default class Carousel extends React.Component {
       func && func()
     })
   }
-  afterScroll(){
-    let startX = this.offsetX, endX 
+  afterScroll() {
+    let startX = this.offsetX, endX
 
-    if(this.distanceX < 60){
-      endX = (this.shouldRenderFirst ? -1 : 0) * this.slideWidth 
+    if (this.distanceX < 60) {
+      endX = (this.shouldRenderFirst ? -1 : 0) * this.slideWidth
       this.nextIndex = this.state.curIndex
-    }else if(this.currentX - this.startX < 0){
+    } else if (this.currentX - this.startX < 0) {
       endX = (this.shouldRenderLast && this.shouldRenderFirst ? -2 : -1) * this.slideWidth
       this.nextIndex = this.shouldRenderLast ? this.lastIndex : this.state.curIndex
-    }else{
+    } else {
       endX = 0
       this.nextIndex = this.shouldRenderFirst ? this.firstIndex : this.state.curIndex
     }
     // check if is tap
-    if(this.timegap < 501 && this.distanceX < 20 && this.distanceY < 20){
+    if (this.timegap < 501 && this.distanceX < 20 && this.distanceY < 20) {
       this.setState({
         curIndex: this.nextIndex,
         isScroll: false,
-      }, ()=> {
-        this.isTransition = false 
+      }, () => {
+        this.isTransition = false
         this.setOffsetX(0)
       })
-    }else{
+    } else {
       this.tweenSlide(tweenDuration, startX, endX, this.nextIndex)
     }
   }
-  doTouchStart(e){
+  doTouchStart(e) {
     let childList = React.Children.toArray(this.props.children)
-    if(childList.length < 2) return 
-    if(this.isTransition) return 
+    if (childList.length < 2) return
+    if (this.isTransition) return
 
     e.stopPropagation()
-    if(this.autoplayTimeHandle){
+    if (this.autoplayTimeHandle) {
       clearTimeout(this.autoplayTimeHandle)
-      this.autoplayTimeHandle = null 
+      this.autoplayTimeHandle = null
     }
     this.beforeScroll()
     let { pageX, pageY } = e.touches[0]
-    this.startX = this.currentX = pageX 
+    this.startX = this.currentX = pageX
     this.startY = this.currentY = pageY
     this.startTime = performanceNow()
   }
-  doTouchMove(e){
+  doTouchMove(e) {
     let childList = React.Children.toArray(this.props.children)
-    if(childList.length < 2) return 
-    if(this.isTransition) return 
+    if (childList.length < 2) return
+    if (this.isTransition) return
 
     e.stopPropagation()
     e.preventDefault()
     let { pageX, pageY } = e.touches[0]
-    let moveX = pageX - this.currentX 
+    let moveX = pageX - this.currentX
 
-    if(this.offsetX + moveX > 0 || this.slideContentWidth + this.offsetX + moveX < this.slideWidth){
+    if (this.offsetX + moveX > 0 || this.slideContentWidth + this.offsetX + moveX < this.slideWidth) {
       moveX *= 0.33
     }
 
     this.setOffsetX(this.offsetX + moveX)
     this.currentX = pageX
-    this.currentY = pageY 
+    this.currentY = pageY
   }
-  doTouchEnd(e){
+  doTouchEnd(e) {
     let childList = React.Children.toArray(this.props.children)
-    if(childList.length < 2) return 
-    if(this.isTransition) return 
+    if (childList.length < 2) return
+    if (this.isTransition) return
 
     e.stopPropagation()
-    this.timegap = performanceNow() - this.startTime 
+    this.timegap = performanceNow() - this.startTime
     this.distanceX = Math.abs(this.currentX - this.startX)
     this.distanceY = Math.abs(this.currentY - this.startY)
-    this.isTransition = true 
+    this.isTransition = true
     this.afterScroll()
     this.props.autoplay && this.autoplay()
   }
-  setDimension(){
+  setDimension() {
     let { height } = this.slides.getBoundingClientRect()
     let { width } = this.slideContainer.getBoundingClientRect()
 
-    this.slideWidth = width 
-    this.slideHeight = height 
+    this.slideWidth = width
+    this.slideHeight = height
   }
-  componentDidMount(){
+  componentDidMount() {
     this.props.autoplay && this.autoplay()
     setTimeout(this.setDimension, 0)
     let options = {
       capture: true,
       passive: false,
-      once: false 
+      once: false
     }
     this.slideContainer.addEventListener('touchstart', this.doTouchStart, options)
     this.slideContainer.addEventListener('touchmove', this.doTouchMove, options)
     this.slideContainer.addEventListener('touchend', this.doTouchEnd, options)
     this.slideContainer.addEventListener('touchcancel', this.doTouchEnd, options)
   }
-  componentWillUnmount(){
-    if(this.autoplayTimeHandle){
+  componentWillUnmount() {
+    if (this.autoplayTimeHandle) {
       clearTimeout(this.autoplayTimeHandle)
     }
     this.slideContainer.removeEventListener('touchstart', this.doTouchStart)
@@ -189,35 +190,35 @@ export default class Carousel extends React.Component {
     this.slideContainer.removeEventListener('touchend', this.doTouchEnd)
     this.slideContainer.removeEventListener('touchcancel', this.doTouchEnd)
   }
-  preLoadImage(list){
-    return <div style={{display: 'none'}}>{list}</div>
+  preLoadImage(list) {
+    return <div style={{ display: 'none' }}>{list}</div>
   }
-  renderSlide(item){
+  renderSlide(item) {
     let style = {}
-    if(this.slideWidth){
+    if (this.slideWidth) {
       style.width = this.slideWidth
     }
     return (
-      <div style={{...style}} className="mrk-slide-item">{item}</div>
+      <div style={{ ...style }} className="mrk-slide-item">{item}</div>
     )
   }
-  renderSlides(){
-    let infinite = this.props.infinite 
+  renderSlides() {
+    let infinite = this.props.infinite
     let list = React.Children.toArray(this.props.children)
-    let { isScroll, curIndex } = this.state 
-    let firstIndex = curIndex - 1 
-    let lastIndex = curIndex + 1 
-    this.shouldRenderFirst = !this.autoplaying && infinite === false && firstIndex < 0 ? false : true 
-    this.shouldRenderLast = !this.autoplaying && infinite === false && list.length - lastIndex <= 0 ? false : true 
-    this.firstIndex = firstIndex < 0 ? list.length - 1 : firstIndex 
-    this.lastIndex = list.length - lastIndex > 0 ? lastIndex : 0 
-    if(!this.shouldRenderFirst || !this.shouldRenderLast){
+    let { isScroll, curIndex } = this.state
+    let firstIndex = curIndex - 1
+    let lastIndex = curIndex + 1
+    this.shouldRenderFirst = !this.autoplaying && infinite === false && firstIndex < 0 ? false : true
+    this.shouldRenderLast = !this.autoplaying && infinite === false && list.length - lastIndex <= 0 ? false : true
+    this.firstIndex = firstIndex < 0 ? list.length - 1 : firstIndex
+    this.lastIndex = list.length - lastIndex > 0 ? lastIndex : 0
+    if (!this.shouldRenderFirst || !this.shouldRenderLast) {
       this.slideContentWidth = 2 * this.slideWidth
-    }else{
-      this.slideContentWidth = 3 * this.slideWidth 
+    } else {
+      this.slideContentWidth = 3 * this.slideWidth
     }
     return (
-      <div 
+      <div
         ref={node => this.slides = node}
         className="mrk-slides">
         {this.preLoadImage(list)}
@@ -228,15 +229,15 @@ export default class Carousel extends React.Component {
         }
         {this.renderSlide(list[curIndex])}
         {
-          isScroll && this.shouldRenderLast ? 
+          isScroll && this.shouldRenderLast ?
             this.renderSlide(list[this.lastIndex])
-            : null 
+            : null
         }
       </div>
     )
   }
-  renderDots(){
-    if(this.props.dots === false) return null 
+  renderDots() {
+    if (this.props.dots === false) return null
 
     let list = React.Children.toArray(this.props.children)
     return (
@@ -244,23 +245,23 @@ export default class Carousel extends React.Component {
         {
           list.length > 1 && list.map((item, key) => (
             <div
-              className="mrk-dot" 
+              className="mrk-dot"
               style={{
                 backgroundColor: `${key === this.state.curIndex ? '#666666' : '#d8d8d8'}`
               }}
-              key={key}/>
+              key={key} />
           ))
         }
       </div>
     )
   }
-  render(){
-    let { style = {} } = this.props 
+  render() {
+    let { style = {} } = this.props
     return (
-      <div 
+      <div
         ref={node => this.slideContainer = node}
         className="mrk-slide-container"
-        style={{...style}}>
+        style={{ ...style }}>
         {this.renderSlides()}
         {this.renderDots()}
       </div>
