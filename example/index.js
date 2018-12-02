@@ -8,10 +8,11 @@ import {
 import PCarousel from './carousel'
 import PPageRefresh from './pageRefresh'
 import {
-  toast, 
+  toast,
+  alert,
 } from '../dist/myreactkit.esm'
 
-let count = 1 
+let count = 1
 
 const App = () => (
   <Router>
@@ -29,6 +30,10 @@ const App = () => (
       <button onClick={() => {
         toast(`hello! ${count++}`)
       }}>toast hello</button>
+      <hr />
+      <button onClick={() => {
+        alert()
+      }}>alert</button>
       <Route path="/carousel" component={PCarousel} />
       <Route path="/pagerefresh" component={PPageRefresh} />
     </div>

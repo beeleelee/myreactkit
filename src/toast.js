@@ -3,40 +3,41 @@ import ReactDOM from 'react-dom'
 import {
   randStr,
   typeOf,
+  delay,
 } from 'mytoolkit'
 import './styles/toast.css'
 
 const fadeOutTime = 2000
-let container = null 
-let containerID = null 
+let container = null
+let containerID = null
 let messageList = []
 
 class ToastMessage extends React.Component {
   state = {
     show: false
   }
-  constructor(options){
+  constructor(options) {
     super(options)
     this.fadeOut = this.fadeOut.bind(this)
     this.remove = this.remove.bind(this)
   }
-  remove(){
-    if(this.state.show) return 
-    
+  remove() {
+    if (this.state.show) return
+
     messageList = messageList.filter(item => item.key !== this.id)
-    if(messageList.length > 0){
+    if (messageList.length > 0) {
       renderToastList()
-    }else{
+    } else {
       removeToastList()
     }
   }
-  fadeOut(){
+  fadeOut() {
     this.setState({
       show: false
     })
   }
-  componentDidMount(){
-    this.id = this.props.id 
+  componentDidMount() {
+    this.id = this.props.id
     setTimeout(() => {
       this.setState({
         show: true
@@ -44,9 +45,9 @@ class ToastMessage extends React.Component {
       setTimeout(this.fadeOut, fadeOutTime)
     }, 0)
   }
-  render(){
+  render() {
     return (
-      <div 
+      <div
         onTransitionEnd={this.remove}
         className={`mrk-toast-message ${this.state.show ? 'show' : ''}`}>
         {this.props.message || ''}
@@ -56,19 +57,19 @@ class ToastMessage extends React.Component {
 }
 
 class ToastList extends React.Component {
-  componentWillUnmount(){
-    clearContainer()
+  componentWillUnmount() {
+    delay(clearContainer, 0)
   }
-  render(){
+  render() {
     let {
       messageList = []
-    } = this.props 
+    } = this.props
     return (
       <div className="mrk-toast-wrap">
         {
           messageList.map((item) => {
             return <ToastMessage key={item.key} message={item.message} id={item.key} />
-            
+
           })
         }
       </div>
@@ -77,7 +78,7 @@ class ToastList extends React.Component {
 }
 
 export const toast = (message) => {
-  if(typeOf(containerID) === 'Null'){
+  if (typeOf(containerID) === 'Null') {
     containerID = `toast_${randStr(6)}`
     container = createContainer(containerID)
   }
@@ -89,7 +90,7 @@ export const toast = (message) => {
 }
 
 function renderToastList() {
-  ReactDOM.render(<ToastList messageList={messageList}/>, container)
+  ReactDOM.render(<ToastList messageList={messageList} />, container)
 }
 
 function createContainer(id) {
@@ -103,9 +104,9 @@ function removeToastList() {
 }
 
 function clearContainer() {
-  if(container){
+  if (container) {
     document.body.removeChild(container)
-    container = null 
+    container = null
     containerID = null
   }
 }

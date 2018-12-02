@@ -9,6 +9,7 @@ import nested from 'postcss-nested'
 import cssnext from 'postcss-cssnext'
 //import csspreset from 'postcss-preset-env'
 import cssnano from 'cssnano'
+import cssImport from 'postcss-import'
 
 export default [
   // browser-friendly UMD build
@@ -22,6 +23,7 @@ export default [
     plugins: [
       postcss({
         plugins: [
+          cssImport(),
           simpleVar(),
           nested(),
           cssnext(),
@@ -53,6 +55,7 @@ export default [
     plugins: [
       postcss({
         plugins: [
+          cssImport(),
           simpleVar(),
           nested(),
           cssnext(),

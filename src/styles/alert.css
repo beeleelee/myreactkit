@@ -1,0 +1,55 @@
+@import './base.css';
+
+.mrk-confirm-mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0,0,0,.4);
+  z-index: 999;
+}
+.mrk-confirm-modal{
+  position: fixed;
+  width: 260px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 1000;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  transform-origin: 50% 50%;
+  padding-top: 10px;
+  .mrk-confirm-title{
+    color: #333;
+    font-size: 18px;
+    text-align: center;
+    padding: 0 15px 5px;
+  }
+  .mrk-confirm-content {
+    color: #3E424E;
+    font-size: 15px;
+    line-height: 1.8;
+    text-align: center;
+    padding: 10px 30px 20px;
+  }
+  .mrk-btn{
+    background-color: #ffffff;
+    height: 40px;
+    cursor: pointer;
+    flex: 1;
+  }
+  .mrk-vr{
+    height: 15px;
+    margin-top: 13px;
+  }
+  .mrk-confirm-cancel{
+    color: #999;
+    font-size: 16px;
+  }
+  .mrk-confirm-confirm{
+    color: #778EE5;
+    font-size: 16px;
+  }
+}
