@@ -28,33 +28,40 @@ class Alert extends React.Component {
     delay(clearContainer, 0, container)
   }
   componentDidMount() {
-    delay(this.fade, 0)
+    delay(this.fade, 0, 'in')
   }
   doCancel() {
     if(this.inTween) return  
 
     let {
-      onCancel
+      onCancel,
+      cancelable,
     } = this.props 
+
+    if(!cancelable) return  
+
     typeOf(onCancel) === 'Function' && onCancel()
-    this.fadeOut('out')
+
+    this.fade('out')
   }
   doConfirm() {
     if(this.inTween) return  
 
     let {
-      onConfirm
+      onConfirm,
     } = this.props 
+
     typeOf(onConfirm) === 'Function' && onConfirm()
+
     this.fade('out')
   }
-  remove() {
-
+  remove(container) {
+    ReactDOM.unmountComponentAtNode(container)
   }
   fade(type){
     this.inTween = true 
     let start = type === 'in' ? 0 : 1 
-    let end = type === 'in' ? 0 : 1 
+    let end = type === 'in' ? 1 : 0
 
     new Tween({
       duration: 300,
@@ -64,10 +71,13 @@ class Alert extends React.Component {
         setStyle(this.mask, 'opacity', inter)
         setStyle(this.modal, 'transform', `translate3d(-50%, -50%, 0) scale(${inter})`)
       },
-      onStop: () => {
+      onEnd: () => {
         setStyle(this.mask, 'opacity', end)
         setStyle(this.modal, 'transform', `translate3d(-50%, -50%, 0) scale(${end})`)
         this.inTween = false 
+        if(type === 'out'){
+          delay(this.remove, 0, this.container)
+        }
       }
     }).start()
   }
@@ -97,7 +107,7 @@ class Alert extends React.Component {
           <div className="mrk-flex-row">
             {cancelable ? <div onClick={this.doCancel} className="mrk-btn mrk-confirm-cancel">{cancelText}</div> : null}
             {cancelable ? <div className="mrk-vr"></div> : null}
-            <div onClick={this.onConfirm} className="mrk-btn mrk-confirm-confirm">{confirmText}</div>
+            <div onClick={this.doConfirm} className="mrk-btn mrk-confirm-confirm">{confirmText}</div>
           </div>
         </div>
       </div>

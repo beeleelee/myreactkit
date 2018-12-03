@@ -32,7 +32,19 @@ const App = () => (
       }}>toast hello</button>
       <hr />
       <button onClick={() => {
-        alert()
+        alert({
+          title: 'warning', 
+          content: 'react fans',
+          onCancel: () => {
+            console.log('call cancel')
+          },
+          onConfirm: () => {
+            console.log('call confirm')
+          },
+          cancelable: true,
+          cancelText: 'cancel',
+          confirmText: 'ok'
+        })
       }}>alert</button>
       <Route path="/carousel" component={PCarousel} />
       <Route path="/pagerefresh" component={PPageRefresh} />

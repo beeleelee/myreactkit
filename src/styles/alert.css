@@ -8,6 +8,7 @@
   top: 0;
   background-color: rgba(0,0,0,.4);
   z-index: 999;
+  opacity: 0;
 }
 .mrk-confirm-modal{
   position: fixed;
@@ -18,7 +19,7 @@
   z-index: 1000;
   left: 50%;
   top: 50%;
-  transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0) scale(0);
   transform-origin: 50% 50%;
   padding-top: 10px;
   .mrk-confirm-title{
