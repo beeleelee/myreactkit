@@ -5,6 +5,8 @@ import {
   Tween,
   noop,
   delay,
+  typeOf,
+  setStyle,
 } from 'mytoolkit'
 import './styles/alert.css'
 
@@ -15,24 +17,59 @@ class Alert extends React.Component {
   constructor(props) {
     super(props)
     this.container = props.container
-    console.log(this.container)
-
+    this.doCancel = this.doCancel.bind(this)
+    this.doConfirm = this.doConfirm.bind(this)
+    this.remove = this.remove.bind(this)
+    this.fade = this.fade.bind(this)
+    this.inTween = false 
   }
   componentWillUnmount() {
     let container = this.container
     delay(clearContainer, 0, container)
   }
   componentDidMount() {
-
+    delay(this.fade, 0)
   }
   doCancel() {
+    if(this.inTween) return  
 
+    let {
+      onCancel
+    } = this.props 
+    typeOf(onCancel) === 'Function' && onCancel()
+    this.fadeOut('out')
   }
   doConfirm() {
+    if(this.inTween) return  
 
+    let {
+      onConfirm
+    } = this.props 
+    typeOf(onConfirm) === 'Function' && onConfirm()
+    this.fade('out')
   }
   remove() {
 
+  }
+  fade(type){
+    this.inTween = true 
+    let start = type === 'in' ? 0 : 1 
+    let end = type === 'in' ? 0 : 1 
+
+    new Tween({
+      duration: 300,
+      ease: 'easeInOutCubic',
+      onStep: (t, percent) => {
+        let inter = (end - start) * percent + start 
+        setStyle(this.mask, 'opacity', inter)
+        setStyle(this.modal, 'transform', `translate3d(-50%, -50%, 0) scale(${inter})`)
+      },
+      onStop: () => {
+        setStyle(this.mask, 'opacity', end)
+        setStyle(this.modal, 'transform', `translate3d(-50%, -50%, 0) scale(${end})`)
+        this.inTween = false 
+      }
+    }).start()
   }
   render() {
     let {
