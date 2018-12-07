@@ -47,7 +47,7 @@ export default [
   // `file` and `format` for each target)
   {
     input: 'src/index.js',
-    external: ['react', 'react-dom', 'mytoolkit'],
+    external: ['react', 'react-dom', 'mytoolkit', 'prop-types'],
     output: [
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'es' }

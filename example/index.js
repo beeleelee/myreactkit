@@ -1,15 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-  HashRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+// import {
+//   HashRouter as Router,
+//   Route,
+//   Link
+// } from 'react-router-dom'
 import PCarousel from './carousel'
 import PPageRefresh from './pageRefresh'
 import {
   toast,
   alert,
+  Router,
+  Route,
 } from '../dist/myreactkit.esm'
 import {
   createHashHistory,
@@ -24,13 +26,7 @@ const history = createHashHistory({
     })
   }
 })
-
-
-history.listen((location, action) => {
-  console.log(action, location)
-})
-
-
+window.h = history
 // let count = 1
 
 // const App = () => (
@@ -72,46 +68,49 @@ history.listen((location, action) => {
 // )
 
 class App extends React.Component {
-  render(){
+  render() {
     return (
-      <div>
-        123456
-        <p>
-          <button onClick={() => {
-            history.push('/a')
-          }}>a</button>
-        </p>
-        <p>
-          <button onClick={() => {
-            history.push({
-              pathname: '/b'
-            })
-          }}>b</button>
-        </p>
-        <p>
-          <button onClick={()=>{
-            history.push('/c')
-            const unblock = history.block('Are you sure you want to leave this page?')
-            // Register a simple prompt message that will be shown the
-            // user before they navigate away from the current page.
+      <Router history={history}>
+        <Route path="/" />
+      </Router>
+      // <div>
+      //   123456
+      //   <p>
+      //     <button onClick={() => {
+      //       history.push('/a')
+      //     }}>a</button>
+      //   </p>
+      //   <p>
+      //     <button onClick={() => {
+      //       history.push({
+      //         pathname: '/b'
+      //       })
+      //     }}>b</button>
+      //   </p>
+      //   <p>
+      //     <button onClick={() => {
+      //       history.push('/c')
+      //       const unblock = history.block('Are you sure you want to leave this page?')
+      //       // Register a simple prompt message that will be shown the
+      //       // user before they navigate away from the current page.
 
-            // Or use a function that returns the message when it's needed.
-            // const unblock = history.block((location, action) => {
-            //   // The location and action arguments indicate the location
-            //   // we're transitioning to and how we're getting there.
+      //       // Or use a function that returns the message when it's needed.
+      //       // const unblock = history.block((location, action) => {
+      //       //   // The location and action arguments indicate the location
+      //       //   // we're transitioning to and how we're getting there.
 
-            //   // A common use case is to prevent the user from leaving the
-            //   // page if there's a form they haven't submitted yet.
-            //   if (input.value !== '') return 'Are you sure you want to leave this page?'
-            // })
+      //       //   // A common use case is to prevent the user from leaving the
+      //       //   // page if there's a form they haven't submitted yet.
+      //       //   if (input.value !== '') return 'Are you sure you want to leave this page?'
+      //       // })
 
-            // // To stop blocking transitions, call the function returned from block().
-            // unblock()
-          }}>
-            c
-          </button>
-        </p>
-      </div>
+      //       // // To stop blocking transitions, call the function returned from block().
+      //       // unblock()
+      //     }}>
+      //       c
+      //     </button>
+      //   </p>
+      // </div>
     )
   }
 }
