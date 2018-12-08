@@ -66,12 +66,37 @@ window.h = history
 //     </div>
 //   </Router>
 // )
-
+const Home = () => (
+  <div>
+    <button onClick={() => {
+      history.push('/a')
+    }}>
+      下一页
+    </button>
+  </div>
+)
+const PageA = () => (
+  <div>
+    <button onClick={() => {
+      history.push('/b')
+    }}>下一页</button>
+  </div>
+)
+const PageB = () => (
+  <div>
+    <button onClick={() => {
+      history.push('/c')
+    }}>下一页</button>
+  </div>
+)
 class App extends React.Component {
   render() {
     return (
       <Router history={history}>
-        <Route path="/" />
+        <Route path="/" component={Home} />
+        <Route path="/a" component={PageA} />
+        <Route path="/b" component={PageB} />
+        <div>11</div>
       </Router>
       // <div>
       //   123456
