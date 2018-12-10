@@ -14,9 +14,27 @@ export class Router extends React.Component {
 
     })
     console.log(routes)
+    this.routes = routes
     this.state = {
-      routes,
       stack: []
+    }
+
+    this.onHistoryChange = this.onHistoryChange.bind(this)
+  }
+  onHistoryChange(location, action) {
+    let { pathname } = location
+    let curRoute = this.routes.find(r => r.props.path === pathname)
+    console.log('current route', curRoute)
+    if (curRoute) {
+
+      this.setState({
+        stack: [
+          ...this.state.stack,
+          {
+            ...curRoute.props
+          }
+        ]
+      })
     }
   }
   componentDidMount() {
@@ -27,24 +45,22 @@ export class Router extends React.Component {
       console.log(action, location)
       let { pathname } = location
       toast(`${action} ${pathname}`)
+      this.onHistoryChange(location, action)
     })
-    console.log(history.location)
-    let { pathname } = history.location
-    this.setState({
-      stack: [
-        this.state.stack,
-        pathname
-      ]
-    })
+    this.onHistoryChange(history.location, 'PUSH')
   }
   componentWillUnmount() {
     this.unlisten()
   }
   render() {
-
+    let { stack } = this.state
     return (
       <div>
-        {this.state.stack}
+        {stack.map((item, key) => {
+          let Component = item.component
+          console.log(Component, item)
+          return <Component key={key} />
+        })}
       </div>
     )
   }

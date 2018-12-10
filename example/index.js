@@ -71,7 +71,7 @@ const Home = () => (
     <button onClick={() => {
       history.push('/a')
     }}>
-      下一页
+      home 下一页
     </button>
   </div>
 )
@@ -79,16 +79,27 @@ const PageA = () => (
   <div>
     <button onClick={() => {
       history.push('/b')
-    }}>下一页</button>
+    }}>a 下一页</button>
   </div>
 )
 const PageB = () => (
   <div>
     <button onClick={() => {
       history.push('/c')
-    }}>下一页</button>
+    }}>b 下一页</button>
   </div>
 )
+class PageC extends React.Component {
+  render() {
+    return (
+      <div>
+        <button onClick={() => {
+          history.goBack()
+        }}>c 返回</button>
+      </div>
+    )
+  }
+}
 class App extends React.Component {
   render() {
     return (
@@ -96,6 +107,7 @@ class App extends React.Component {
         <Route path="/" component={Home} />
         <Route path="/a" component={PageA} />
         <Route path="/b" component={PageB} />
+        <Route path="/c" component={PageC} />
         <div>11</div>
       </Router>
       // <div>
